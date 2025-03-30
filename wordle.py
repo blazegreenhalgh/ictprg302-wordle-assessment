@@ -5,3 +5,8 @@ def score_guess(guess, target):
         score = [2] * len(target)
         return score
     return score
+
+guess = "world"
+target = "world"
+
+print(score_guess(guess, target))
