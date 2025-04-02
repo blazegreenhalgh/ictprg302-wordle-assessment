@@ -18,9 +18,6 @@ with open("sources/target_words.txt") as file:
     for target_word in target_words:
         target_word.strip()
 
-target_word = random.choice(target_words)
-
-print(target_word)
 
 def score_guess(guess, target):
     """ This functions takes two strings (guess, target) and determines if each character from one matches in value and position with the other.
@@ -61,8 +58,11 @@ def format_score(score, guess):
     return formatted_guess
 
 
-def guess():
-    attempts = 6
+def play():
+    target_word = random.choice(target_words)
+    attempts = 1
+    print(target_word)
+
     print("What is your 5-letter guess?")
     while True:
         print(f"{attempts} Attempts remaining...")
@@ -77,8 +77,27 @@ def guess():
         print(score)
         print(*format_score(score, input_guess))
         attempts -= 1
+        if attempts == 0:
+            end_game()
+            break
+
+
+
+
+
+def end_game():
+    print("You lost!")
+    print("Would you like to play again?")
+    input_restart = input("> ").strip().lower()
+    if input_restart[0] == 'y':
+        play()
+    else:
+        print("Thanks for playing!")
+
+
+
 
 help_message()
-guess()
+play()
 
 
