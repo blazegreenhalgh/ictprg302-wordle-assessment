@@ -6,19 +6,22 @@ def score_guess(guess, target):
 
     # Finding correct pos chars first
     for guess_index, guess_letter in enumerate(guess_letters):
-        for target_index, target_letter in enumerate(target_letters):
-            if guess_letter == target_letter and guess_index == target_index:
-                score[guess_index] = 2
-                # Replace duplicates with incorrect value after correct pos is found
-                for i in range(len(guess_letters)):
-                    if guess_letter in guess_letters[i]:
-                        guess_letters[i] = " " 
+        if guess_letter in target_letters[guess_index]:
+            score[guess_index] = 2
+            # Replace duplicates with incorrect value after correct pos is found
+            target_letters[guess_index] = None
 
     # Finding incorrect pos chars after finding correct pos
     for guess_index, guess_letter in enumerate(guess_letters):
-        for target_index, target_letter in enumerate(target_letters):
-            if guess_letter == target_letter and score[guess_index] != 2:
-                score[guess_index] = 1
+        if guess_letter in target_letters:
+            score[guess_index] = 1
+            # Replace duplicates with incorrect value after correct pos is found
+            target_index = target_letters.index(guess_letter)
+            target_letters[target_index] = None
+        
+
+    return score
+
 
 
 
