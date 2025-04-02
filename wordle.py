@@ -1,7 +1,9 @@
 def help_message():
     attempts = 6
-    print("<< Welcome to CLI Wordle! >>")
+    print("\n--------------------")
+    print("Welcome to CLI Wordle!")
     print("You have 6 attempts to guess the secret word!")
+    print("--------------------\n")
 
 
 import random
@@ -17,12 +19,13 @@ with open("sources/target_words.txt") as file:
         target_word.strip()
 
 target_word = random.choice(target_words)
-score = [0] * len(target_word)
 
+print(target_word)
 
 def score_guess(guess, target):
     """ This functions takes two strings (guess, target) and determines if each character from one matches in value and position with the other.
     1 = Value match, 2 = Value and Position match. A list is returned with items equal to the length of the target string."""
+    score = [0] * len(target_word)
     guess_letters = list(guess.lower())
     target_letters = list(target.lower())
     # Finding correct pos chars first
@@ -58,15 +61,11 @@ def format_score(score, guess):
     return formatted_guess
 
 
-
-
-
-
 def guess():
+    attempts = 6
+    print("What is your 5-letter guess?")
     while True:
-        attempts = 6
         print(f"{attempts} Attempts remaining...")
-        print("What is your 5-letter guess?")
         input_guess = input("> ").lower()
         if len(input_guess) < 5:
             print("Too short! Must be 5 letters!")
@@ -75,18 +74,11 @@ def guess():
             print("Too long! Must be 5 letters!")
             continue
         score = score_guess(input_guess, target_word)
+        print(score)
         print(*format_score(score, input_guess))
+        attempts -= 1
 
 help_message()
 guess()
-
-
-
-
-# guess = "bca"
-# target = "bba"
-#
-# print("FINAL SCORE: ", score_guess(guess, target))
-
 
 
