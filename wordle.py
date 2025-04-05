@@ -41,11 +41,11 @@ def format_score(score, guess):
     formatted_guess = list(guess)
     for i, letter in enumerate(formatted_guess):
         if score[i] == 1:
-            formatted_guess[i] = f"{format_colours['yellow']['start']} {letter} {format_colours['yellow']['end']}"
+            formatted_guess[i] = f"{format_colours['yellow']['start']} {letter.upper()} {format_colours['yellow']['end']}"
         elif score[i] == 2:
-            formatted_guess[i] = f"{format_colours["green"]["start"]} {letter} {format_colours["green"]["end"]}"
+            formatted_guess[i] = f"{format_colours["green"]["start"]} {letter.upper()} {format_colours["green"]["end"]}"
         else:
-            formatted_guess[i] = f" {letter} "
+            formatted_guess[i] = f" {letter.upper()} "
     return formatted_guess
 
 
@@ -85,7 +85,7 @@ def play():
         if attempts == 0:
             print("\n--------------------")
             print("You lost!")
-            print(f"The word was {format_colours['green']['start']} {target_word} {format_colours['green']['end']}")
+            print(f"The word was {format_colours['green']['start']} {target_word.upper()} {format_colours['green']['end']}")
             print("--------------------\n")
             end_game()
             break
@@ -93,7 +93,7 @@ def play():
 
 def help_message(target):
     print("\n--------------------")
-    print(f"I'll give you a hint: {target}")
+    print(f"I'll give you a hint: {target.upper()}")
     print("--------------------\n")
 
 
