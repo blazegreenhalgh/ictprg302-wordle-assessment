@@ -10,6 +10,10 @@ with open("sources/target_words.txt") as file:
     for word in target_words:
         word.strip()
 
+format_colours = {
+    "green": {"start": '\x1b[6;30;42m', "end": '\x1b[0m'},
+    "yellow": {"start": "\33[43m", "end": "\33[0m"}
+}
 
 def score_guess(guess, target):
     """ This functions takes two strings (guess, target) and determines if each character from one matches in value and position with the other.
@@ -34,14 +38,12 @@ def score_guess(guess, target):
     return score
 
 def format_score(score, guess):
-    yellow = {"start": "\33[43m", "end": "\33[0m"}
-    green = {"start": '\x1b[6;30;42m', "end": '\x1b[0m'}
     formatted_guess = list(guess)
     for i, letter in enumerate(formatted_guess):
         if score[i] == 1:
-            formatted_guess[i] = f"{yellow["start"]} {letter} {yellow["end"]}"
+            formatted_guess[i] = f"{format_colours['yellow']['start']} {letter} {format_colours['yellow']['end']}"
         elif score[i] == 2:
-            formatted_guess[i] = f"{green["start"]} {letter} {green["end"]}"
+            formatted_guess[i] = f"{format_colours["green"]["start"]} {letter} {format_colours["green"]["end"]}"
         else:
             formatted_guess[i] = f" {letter} "
     return formatted_guess
@@ -50,7 +52,9 @@ def format_score(score, guess):
 def play():
     print("\n--------------------")
     print("Welcome to CLI Wordle!")
-    print("You have 6 attempts to guess the secret word!")
+    print("You have 6 attempts to guess the secret word!\n")
+    print(f"{format_colours['yellow']['start']}   {format_colours['yellow']['end']} = Correct letter, wrong position")
+    print(f"{format_colours['green']['start']}   {format_colours['green']['end']} = Correct letter, correct position")
     print("--------------------\n")
     target_word = random.choice(target_words)
     attempts = 6
@@ -67,6 +71,9 @@ def play():
         if len(input_guess) > 5:
             print("Too long! Must be 5 letters!")
             continue
+        if input_guess not in all_words:
+            print("Not a valid word!")
+            continue
         score = score_guess(input_guess, target_word)
         print(*format_score(score, input_guess))
         if score == [2, 2, 2, 2, 2]:
@@ -78,7 +85,7 @@ def play():
         if attempts == 0:
             print("\n--------------------")
             print("You lost!")
-            print(f"The word was \33[43m {target_word} \33[0m")
+            print(f"The word was {format_colours['green']['start']} {target_word} {format_colours['green']['end']}")
             print("--------------------\n")
             end_game()
             break
@@ -103,5 +110,4 @@ def end_game():
 
 
 play()
-
 
