@@ -65,11 +65,11 @@ def play():
         if input_guess == "help":
             help_message(target_word)
             continue
-        if len(input_guess) < 5:
-            print("Too short! Must be 5 letters!")
+        if len(input_guess) < len(target_word):
+            print(f"Too short! Must be {len(target_word)} letters!")
             continue
-        if len(input_guess) > 5:
-            print("Too long! Must be 5 letters!")
+        if len(input_guess) > len(target_word):
+            print(f"Too long! Must be {len(target_word)} letters!")
             continue
         if input_guess not in all_words:
             print("Not a valid word!")
