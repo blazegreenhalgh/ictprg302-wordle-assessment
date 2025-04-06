@@ -19,6 +19,10 @@ format_colours = {
     "yellow": {"start": "\33[43m", "end": "\33[0m"}
 }
 
+def is_winner(score):
+    if score == [2,2,2,2,2]:
+        return True
+
 def score_guess(guess, target):
     """ This functions takes two strings (guess, target) and determines if each character from one matches in value and position with the other.
     1 = Value match, 2 = Value and Position match. A list is returned with items equal to the length of the target string."""
@@ -52,16 +56,29 @@ def format_score(score, guess):
             formatted_guess[i] = f" {letter.upper()} "
     return formatted_guess
 
+def append_share_grid(score, target, grid):
+    share_row = list()
+    for number in score:
+        if number == 2:
+            share_row.append("🟩")
+        if number == 1:
+            share_row.append("🟨")
+        if number == 0:
+            share_row.append("⬜")
+    string_share_row = ' '.join(share_row)
+    grid.append(f"{string_share_row}")
+    return grid
+
+
 
 def play():
     print("\n--------------------")
     print("Welcome to CLI Wordle!")
-    print("You have 6 attempts to guess the secret word!\n")
-    print(f"{format_colours['yellow']['start']}   {format_colours['yellow']['end']} = Correct letter, wrong position")
-    print(f"{format_colours['green']['start']}   {format_colours['green']['end']} = Correct letter, correct position")
-    print("--------------------\n")
+    print("You have 6 attempts to guess the secret word!")
+    print("--------------------")
     target_word = random.choice(target_words).upper()
     attempts = 6
+    share_grid = []
     print("What is your 5-letter guess?")
     while True:
         print(f"{attempts} Attempts remaining...")
@@ -79,11 +96,14 @@ def play():
             print("Not a valid word!")
             continue
         score = score_guess(input_guess, target_word)
-        print(*format_score(score, input_guess))
-        if score == [2, 2, 2, 2, 2]:
-            print("You guessed the target word! 🎉\n")
+        share_grid = append_share_grid(score, target_word, share_grid)
+        if is_winner(score):
+            formatted_grid = '\n'.join(share_grid)
+            print(formatted_grid)
+            print(f"You guessed the target word: {format_colours['green']['start']} {target_word} {format_colours['green']['end']} 🎉\n")
             end_game()
             break
+        print(*format_score(score, input_guess))
 
         attempts -= 1
         if attempts == 0:
@@ -97,6 +117,8 @@ def play():
 
 def help_message(target):
     print("\n--------------------")
+    print(f"{format_colours['yellow']['start']}   {format_colours['yellow']['end']} = Correct letter, wrong position")
+    print(f"{format_colours['green']['start']}   {format_colours['green']['end']} = Correct letter, correct position")
     print(f"I'll give you a hint: {target}")
     print("--------------------\n")
 
