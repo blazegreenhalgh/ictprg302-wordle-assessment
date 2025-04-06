@@ -1,3 +1,7 @@
+# TODO: Implement achievements
+# TODO: Implement Hot seat 2-player mode (P1 sets word, P2 guesses)
+# TODO: Implement sharable grid, like real wordle
+
 import random
 
 with open("sources/all_words.txt") as file:
@@ -52,7 +56,6 @@ def format_score(score, guess):
 def play():
     print("\n--------------------")
     print("Welcome to CLI Wordle!")
-    # TODO: Make 'CLI Wordle' have different colours per letter
     print("You have 6 attempts to guess the secret word!\n")
     print(f"{format_colours['yellow']['start']}   {format_colours['yellow']['end']} = Correct letter, wrong position")
     print(f"{format_colours['green']['start']}   {format_colours['green']['end']} = Correct letter, correct position")
