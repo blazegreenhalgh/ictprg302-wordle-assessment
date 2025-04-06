@@ -56,7 +56,7 @@ def format_score(score, guess):
             formatted_guess[i] = f" {letter.upper()} "
     return formatted_guess
 
-def append_share_grid(score, target, grid):
+def append_grid(score, target, grid):
     share_row = list()
     for number in score:
         if number == 2:
@@ -96,7 +96,7 @@ def play():
             print("Not a valid word!")
             continue
         score = score_guess(input_guess, target_word)
-        share_grid = append_share_grid(score, target_word, share_grid)
+        share_grid = append_grid(score, target_word, share_grid)
         if is_winner(score):
             formatted_grid = '\n'.join(share_grid)
             print(formatted_grid)
@@ -104,7 +104,6 @@ def play():
             end_game()
             break
         print(*format_score(score, input_guess))
-
         attempts -= 1
         if attempts == 0:
             print("\n--------------------")
