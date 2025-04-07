@@ -93,7 +93,7 @@ def play():
     target_word = random.choice(target_words).upper()
     attempts = 6
     grid = []
-    print(f"What is your {len(target_word)} guess?")
+    print(f"What is your {len(target_word)} letter guess?")
     while True:
         print(f"{attempts} Attempts remaining...")
         input_guess = input("> ").lower()
