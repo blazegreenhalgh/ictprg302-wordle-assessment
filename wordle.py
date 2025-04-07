@@ -15,6 +15,8 @@ format_colours = {
     "yellow": {"start": "\33[43m", "end": "\33[0m"}
 }
 
+game_running = True
+
 def is_winner(score):
     if score == [2,2,2,2,2]:
         return True
@@ -68,13 +70,18 @@ def append_grid(score, target, grid):
 def validate_guess(guess, target):
     if guess == "help":
         help_message(target)
+        return False
     if len(guess) < len(target):
         print(f"Too short! Must be {len(target)} letters!")
+        return False
     if len(guess) > len(target):
         print(f"Too long! Must be {len(target)} letters!")
+        return False
     if guess not in all_words:
         print("Not a valid word!")
-    return guess
+        return False
+    else:
+        return True
 
 def play():
     print("\n--------------------")
@@ -84,29 +91,27 @@ def play():
     target_word = random.choice(target_words).upper()
     attempts = 6
     share_grid = []
-    print("What is your 5-letter guess?")
+    print(f"What is your {len(target_word)} guess?")
     while True:
         print(f"{attempts} Attempts remaining...")
         input_guess = input("> ").lower()
-        validate_guess(input_guess, target_word)
-        score = score_guess(input_guess, target_word)
-        share_grid = append_grid(score, target_word, share_grid)
-        if is_winner(score):
-            formatted_grid = '\n'.join(share_grid)
-            print(formatted_grid)
-            print(f"You guessed the target word: {format_colours['green']['start']} {target_word} {format_colours['green']['end']} 🎉\n")
-            end_game()
-            break
-        print(*format_score(score, input_guess))
-        attempts -= 1
-        if attempts == 0:
-            print("\n--------------------")
-            print("You lost!")
-            print(f"The word was {format_colours['green']['start']} {target_word} {format_colours['green']['end']}")
-            print("--------------------\n")
-            end_game()
-            break
-
+        if validate_guess(input_guess, target_word):
+            score = score_guess(input_guess, target_word)
+            share_grid = append_grid(score, target_word, share_grid)
+            if is_winner(score):
+                formatted_grid = '\n'.join(share_grid)
+                print(formatted_grid)
+                print(f"You guessed the target word: {format_colours['green']['start']} {target_word} {format_colours['green']['end']} 🎉\n")
+                break
+            print(*format_score(score, input_guess))
+            attempts -= 1
+            if attempts == 0:
+                print("\n--------------------")
+                print("You lost!")
+                print(f"The word was {format_colours['green']['start']} {target_word} {format_colours['green']['end']}")
+                print("--------------------\n")
+                break
+    end_game(game_running)
 
 def help_message(target):
     print("\n--------------------")
@@ -117,16 +122,16 @@ def help_message(target):
 
 
 
-def end_game():
+def end_game(game_running):
     print("Would you like to play again?")
     input_restart = input("> ").strip().lower()
     if input_restart[0] == 'y':
-        play()
+        game_running = True
     else:
         print("Thanks for playing!")
+        game_running = False
 
 
-
-
-play()
+while game_running is True:
+    play()
 
