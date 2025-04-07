@@ -69,7 +69,7 @@ def append_grid(score, target, grid):
     return grid
 
 
-def validate_guess(guess, target):
+def is_valid_guess(guess, target):
     if guess == "help":
         help_message(target)
         return False
@@ -97,7 +97,7 @@ def play():
     while True:
         print(f"{attempts} Attempts remaining...")
         input_guess = input("> ").lower()
-        if validate_guess(input_guess, target_word):
+        if is_valid_guess(input_guess, target_word):
             score = score_guess(input_guess, target_word)
             formatted_grid = append_grid(score, target_word, grid)
             if is_winner(score, target_word):
