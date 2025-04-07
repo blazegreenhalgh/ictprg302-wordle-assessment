@@ -1,18 +1,15 @@
 # TODO: Implement achievements
 # TODO: Implement Hot seat 2-player mode (P1 sets word, P2 guesses)
-# TODO: Implement sharable grid, like real wordle
-
+# TODO:
 import random
 
 with open("sources/all_words.txt") as file:
     all_words = file.read().splitlines()
-    for word in all_words:
-        word.strip()
 
 with open("sources/target_words.txt") as file:
     target_words = file.read().splitlines()
-    for word in target_words:
-        word.strip()
+
+print(all_words[-5:])
 
 format_colours = {
     "green": {"start": '\x1b[6;30;42m', "end": '\x1b[0m'},
@@ -57,7 +54,7 @@ def format_score(score, guess):
     return formatted_guess
 
 def append_grid(score, target, grid):
-    share_row = list()
+    share_row = []
     for number in score:
         if number == 2:
             share_row.append("🟩")
