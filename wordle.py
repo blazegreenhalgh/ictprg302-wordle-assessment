@@ -123,7 +123,8 @@ def help_message(target):
 
 
 
-def end_game(game_running):
+def end_game(boolean):
+    global game_running
     print("Would you like to play again?")
     input_restart = input("> ").strip().lower()
     if input_restart[0] == 'y':
