@@ -52,9 +52,9 @@ def format_score(score, guess):
             formatted_guess[i] = f"{format_colours["green"]["start"]} {letter.upper()} {format_colours["green"]["end"]}"
         else:
             formatted_guess[i] = f" {letter.upper()} "
-    return formatted_guess
+    return ' '.join(formatted_guess)
 
-def append_grid(score, target, grid):
+def append_grid(score, grid):
     share_row = []
     for number in score:
         if number == 2:
@@ -67,6 +67,11 @@ def append_grid(score, target, grid):
     grid.append(f"{string_share_row}")
     grid = '\n'.join(grid)
     return grid
+
+def append_guess_history(guess, guesses):
+    guesses.append(guess)
+    guesses = '\n'.join(guesses)
+    return guesses
 
 
 def is_valid_guess(guess, target):
@@ -93,18 +98,21 @@ def play():
     target_word = random.choice(target_words).upper()
     attempts = 6
     grid = []
+    guess_history = []
     print(f"What is your {len(target_word)} letter guess?")
     while True:
         print(f"{attempts} Attempts remaining...")
         input_guess = input("> ").lower()
         if is_valid_guess(input_guess, target_word):
             score = score_guess(input_guess, target_word)
-            formatted_grid = append_grid(score, target_word, grid)
+            formatted_grid = append_grid(score, grid)
             if is_winner(score, target_word):
                 print(formatted_grid)
                 print(f"You guessed the target word: {format_colours['green']['start']} {target_word} {format_colours['green']['end']} 🎉\n")
                 break
-            print(*format_score(score, input_guess))
+            formatted_guess = format_score(score, input_guess)
+            guess_total = append_guess_history(formatted_guess, guess_history)
+            print(guess_total)
             attempts -= 1
             if attempts == 0:
                 print("\n--------------------")
