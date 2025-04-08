@@ -90,6 +90,17 @@ def is_valid_guess(guess, target):
     else:
         return True
 
+
+def track_average_scores(total_attempts, remaining_attempts):
+    with open("sources/scores.txt", 'a') as file:
+        file.write(f"\n{total_attempts - remaining_attempts}")
+    with open("sources/scores.txt") as file:
+        scores = file.read().splitlines()
+    for i, score in enumerate(scores):
+        scores[i] = int(score)
+    average_score = round(sum(scores) / (len(scores) - 1)) # the first line of scores.txt can't be removed, and I need to sleep...
+    return average_score
+
 def play():
     print("\n--------------------")
     print("Welcome to CLI Wordle!")
@@ -106,14 +117,17 @@ def play():
         if is_valid_guess(input_guess, target_word):
             score = score_guess(input_guess, target_word)
             formatted_grid = append_grid(score, grid)
+            attempts -= 1
             if is_winner(score, target_word):
                 print(formatted_grid)
-                print(f"You guessed the target word: {format_colours['green']['start']} {target_word} {format_colours['green']['end']} 🎉\n")
+                remaining_attempts = attempts
+                attempts = 6
+                print(f"You guessed the target word: {format_colours['green']['start']} {target_word} {format_colours['green']['end']} 🎉")
+                print(f"On average, you take {track_average_scores(attempts, remaining_attempts)} attempts to guess the word.\n")
                 break
             formatted_guess = format_score(score, input_guess)
             guess_total = append_guess_history(formatted_guess, guess_history)
             print(guess_total)
-            attempts -= 1
             if attempts == 0:
                 print("\n--------------------")
                 print("You lost!")
@@ -128,6 +142,7 @@ def help_message(target):
     print(f"{format_colours['green']['start']}   {format_colours['green']['end']} = Correct letter, correct position")
     print(f"I'll give you a hint: {target}")
     print("--------------------\n")
+
 
 
 
