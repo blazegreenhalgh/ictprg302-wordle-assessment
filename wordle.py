@@ -22,7 +22,7 @@ def is_winner(score, target):
         return True
 
 def score_guess(guess, target):
-    """ This functions takes two strings (guess, target) and determines if each character from one matches in value and position with the other.
+    """Determines if each character from one matches in value and position with the other.
     1 = Value match, 2 = Value and Position match. A list is returned with items equal to the length of the target string."""
     score = [0] * len(target)
     guess_letters = list(guess.lower())
