@@ -93,12 +93,12 @@ def is_valid_guess(guess, target):
 
 def track_average_scores(total_attempts, remaining_attempts):
     with open("sources/scores.txt", 'a') as file:
-        file.write(f"\n{total_attempts - remaining_attempts}")
+        file.write(f"{total_attempts - remaining_attempts} ")
     with open("sources/scores.txt") as file:
-        scores = file.read().splitlines()
+        scores = file.read().split()
     for i, score in enumerate(scores):
         scores[i] = int(score)
-    average_score = round(sum(scores) / (len(scores) - 1)) # the first line of scores.txt can't be removed, and I need to sleep...
+    average_score = round(sum(scores)) / len(scores) 
     return average_score
 
 def play():
@@ -155,6 +155,9 @@ def end_game(boolean):
     else:
         print("Thanks for playing!")
         game_running = False
+       # open('sources/scores.txt', 'w').close()
+       # with open('sources/scores.txt', 'w') as file:
+        #    file.write('0')
 
 
 while game_running is True:
